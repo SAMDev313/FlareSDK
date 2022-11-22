@@ -1,2 +1,0 @@
-# FlareSDK
-For Flare incident
