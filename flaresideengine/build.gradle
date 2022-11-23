@@ -1,6 +1,11 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android'
+//    id 'kotlin-android-extensions'
+    id 'com.vanniktech.maven.publish'
+}
+import com.vanniktech.maven.publish.SonatypeHost
 
 android {
     compileSdk 32
@@ -26,8 +31,55 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-}
 
+    mavenPublishing {
+        pom {
+            name.set("FlareSDK")
+            description.set("A description of what my library does.")
+            inceptionYear.set("2020")
+            url.set("https://github.com/SAMDev313/FlareSDK")
+            licenses {
+                license {
+                    name.set("The Apache License, Version 2.0")
+                    url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                    distribution.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                }
+            }
+            developers {
+                developer {
+                    id.set("username")
+                    name.set("User Name")
+                    url.set("https://github.com/SAMDev313")
+                }
+            }
+            scm {
+                url.set("https://github.com/SAMDev313/FlareSDK")
+                connection.set("scm:git:git://github.com/SAMDev313/FlareSDK.git")
+                developerConnection.set("scm:git:ssh://git@github.com/SAMDev313/FlareSDK.git")
+            }
+        }
+    }
+
+}
+mavenPublishing {
+//    publishToMavenCentral(SonatypeHost.DEFAULT)
+    // or when publishing to https://s01.oss.sonatype.org
+    publishToMavenCentral(SonatypeHost.S01)
+
+    signAllPublications()
+}
+//publishing {
+//    repositories {   // by default upload tasks points to the legacy URl which will be down on sunset and all new repos should use the one similar to below.
+//        maven {
+//            // change to point to your repo, e.g. http://my.org/repo
+//            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2"
+//            credentials {   // using tokenized username and password per maven for security.
+//                username = System.getenv('OSSRH_USERNAME')  // jira-username (nexus UI username or username token
+//                password = System.getenv('OSSRH_PASSWORD')  //jira-password (nexus UI password or password token)
+//            }
+//        }
+//    }
+//}
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.7.0'
